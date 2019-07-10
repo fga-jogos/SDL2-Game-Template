@@ -6,9 +6,8 @@
 class Logger
 {
 public:
+	static void logError(std::string errorModule, std::string errorDescription, std::string sdlError = "");
 
-	static const void logError(std::string errorModule, std::string errorDescription);
-	
 	static const void logInfo(std::string info);
 
 private:

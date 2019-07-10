@@ -20,8 +20,10 @@ public:
 			width: screen width
 			height: screen height
 			fullscreen: true if window will ocuppy all screen
+		returns false if game has not been initialized correctly
+		Log error to stdout
 	 */
-	void init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen);
+	bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen);
 
 	/*
 		Hanles user input as SDL's events

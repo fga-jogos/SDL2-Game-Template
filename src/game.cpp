@@ -11,14 +11,14 @@ Game::Game()
 Game::~Game()
 {}
 
-void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
+bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
 	int flags = 0;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
-		Logger::logError("Initalizing failure", "SDL Subsystems failed to initialize properly");
-		exit();
+		Logger::logError("Initalizing failure", "SDL Subsystems failed to initialize properly", SDL_GetError());
+		return false;
 	}
 
 	if (_verbose)
@@ -30,8 +30,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
 	if (!_window)
 	{
-		Logger::logError("Initalizing failure", "Window creation failure");
-		exit();
+		Logger::logError("Initalizing failure", "Window creation failure", SDL_GetError());
+		return false;
 	}
 
 	if (_verbose)
@@ -43,8 +43,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
 	if (!_renderer)
 	{
-		Logger::logError("Initalizing failure", "Renderer creation failure");
-		exit();
+		Logger::logError("Initalizing failure", "Renderer creation failure", SDL_GetError());
+		return false;
 	}
 
 	if (_verbose)
@@ -60,6 +60,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 	/* End of class initialization */
 
 	_isRunning = true;
+	return true;
 }
 
 void Game::handleUserInput()

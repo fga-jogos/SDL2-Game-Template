@@ -24,10 +24,13 @@ int main(int argc, char **argv)
 	game.setFramerate(framerate);
 	game.setVerbose(verbose);
 
-	game.init("2D Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	bool correctInitialization = game.init("2D Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 
-	// Main game loop running
-	game.run();
+	if (correctInitialization)
+	{
+		// Main game loop running
+		game.run();
+	}
 
 	game.exit();
 
