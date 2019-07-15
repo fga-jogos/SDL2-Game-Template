@@ -1,4 +1,4 @@
-#include "game.h"
+#include "game.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 	game.setFramerate(framerate);
 	game.setVerbose(verbose);
 
-	bool correctInitialization = game.init("2D Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	bool correctInitialization = game.init("2D SDL Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
 
 	if (correctInitialization)
 	{

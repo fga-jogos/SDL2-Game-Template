@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "logger.hpp"
 #include <iostream>
 
 void Logger::logError(std::string errorModule, std::string errorDescription, std::string sdlError)
