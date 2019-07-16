@@ -10,7 +10,8 @@
 class Graphics
 {
 public:
-	Graphics(const char *windowTitle);
+
+	Graphics(const char *windowTitle, int screenWidth, int screenHeight);
 	~Graphics();
 
 	/*

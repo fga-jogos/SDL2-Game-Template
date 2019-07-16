@@ -1,5 +1,4 @@
 #include "sprite.hpp"
-#include "globals.hpp"
 #include "graphics.hpp"
 #include "util.hpp"
 

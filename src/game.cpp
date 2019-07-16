@@ -1,7 +1,6 @@
 #include "game.hpp"
 #include "util.hpp"
 #include "input.hpp"
-#include "globals.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -9,6 +8,8 @@
 namespace GameVariables
 {
 	const char *GAME_NAME = "SDL2 2D GAME ENGINE";
+	const int SCREEN_WIDTH = 1280;
+	const int SCREEN_HEIGHT = 720;
 }
 
 Game::Game()
@@ -34,7 +35,8 @@ bool Game::init()
 		Util::logInfo("SDL Subsystems initialized");
 	}
 
-	_graphics = new Graphics(GameVariables::GAME_NAME);
+	_graphics = new Graphics(GameVariables::GAME_NAME, GameVariables::SCREEN_WIDTH, GameVariables::SCREEN_HEIGHT);
+	_graphics->setRenderColor(Color::white());
 
 	/* Custom class initialization */
 
@@ -80,7 +82,6 @@ void Game::update()
 
 void Game::render()
 {
-	_graphics->setRenderColor(_backgroundColor);
 	_graphics->fillBackground();
 
 	/* Rendering of different classes */

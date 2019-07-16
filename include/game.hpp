@@ -72,9 +72,6 @@ private:
 
 	SDL_Event _event;
 
-	Color _segmentColor = Color(140, 140, 140, 255);
-	Color _backgroundColor = Color(200, 200, 230, 255);
-
 	// Custom game classes
 
 	// End of custom classes

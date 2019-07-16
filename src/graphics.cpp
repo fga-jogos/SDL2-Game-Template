@@ -1,12 +1,11 @@
 #include "graphics.hpp"
-#include "globals.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-Graphics::Graphics(const char *windowTitle)
+Graphics::Graphics(const char *windowTitle, int screenWidth, int screenHeight)
 {
-	_window = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, globals::SCREEN_WIDTH, globals::SCREEN_HEIGHT, 0);
+	_window = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, 0);
 	SDL_SetWindowTitle(_window, windowTitle);
 	_renderer = SDL_CreateRenderer(_window, -1, 0);
 }

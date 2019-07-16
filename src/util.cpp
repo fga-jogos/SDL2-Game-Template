@@ -1,5 +1,4 @@
 #include "util.hpp"
-#include "globals.hpp"
 
 #include <random>
 #include <string>
