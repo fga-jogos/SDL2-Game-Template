@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 	bool verbose = false;
 	int framerate = 60;
 
-	if(argc > 1)
+	if (argc > 1)
 	{
 		verbose = (argv[1][1] == 'v');
 	}
@@ -24,11 +24,8 @@ int main(int argc, char **argv)
 	game.setFramerate(framerate);
 	game.setVerbose(verbose);
 
-	bool correctInitialization = game.init("2D SDL Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
-
-	if (correctInitialization)
+	if (game.init())
 	{
-		// Main game loop running
 		game.run();
 	}
 

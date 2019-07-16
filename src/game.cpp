@@ -1,61 +1,42 @@
 #include "game.hpp"
-#include "logger.hpp"
+#include "util.hpp"
+#include "input.hpp"
+#include "globals.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <iostream>
+
+namespace GameVariables
+{
+	const char *GAME_NAME = "SDL2 2D GAME ENGINE";
+}
 
 Game::Game()
-{}
+{
+}
 
 Game::~Game()
-{}
+{
+}
 
-bool Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
+bool Game::init()
 {
 	int flags = 0;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
-		Logger::logError("Initalizing failure", "SDL Subsystems failed to initialize properly", SDL_GetError());
+		Util::logError("Initalizing failure", "SDL Subsystems failed to initialize properly", SDL_GetError());
 		return false;
 	}
 
 	if (_verbose)
 	{
-		Logger::logInfo("SDL Subsystems initialized");
+		Util::logInfo("SDL Subsystems initialized");
 	}
 
-	_window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-
-	if (!_window)
-	{
-		Logger::logError("Initalizing failure", "Window creation failure", SDL_GetError());
-		return false;
-	}
-
-	if (_verbose)
-	{
-		Logger::logInfo("Window created");
-	}
-
-	_renderer = SDL_CreateRenderer(_window, -1, 0);
-
-	if (!_renderer)
-	{
-		Logger::logError("Initalizing failure", "Renderer creation failure", SDL_GetError());
-		return false;
-	}
-
-	if (_verbose)
-	{
-		Logger::logInfo("Renderer created");
-	}
-
-	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255); // Standard background color set to white
+	_graphics = new Graphics(GameVariables::GAME_NAME);
 
 	/* Custom class initialization */
-
 
 	/* End of class initialization */
 
@@ -65,22 +46,28 @@ bool Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
 void Game::handleUserInput()
 {
-	SDL_Event event;
-	SDL_PollEvent(&event);
-	switch (event.type)
+	this->_input.beginNewFrame();
+
+	if (SDL_PollEvent(&this->_event))
 	{
-	case SDL_QUIT:
-		_isRunning = false;
-		break;
-	
-	/* Custom user input */
+		if (this->_event.type == SDL_QUIT)
+		{
+			exit();
+		}
+		else if (this->_event.type == SDL_KEYDOWN)
+		{
+			if (this->_event.key.repeat == 0)
+				this->_input.keyDownEvent(this->_event);
+		}
+		else if (this->_event.type == SDL_KEYUP)
+		{
+			this->_input.keyUpEvent(this->_event);
+		}
+	}
 
-
-
-	/* End of custom user input */
-	
-	default:
-		break;
+	if (this->_input.wasKeyPressed(SDL_SCANCODE_ESCAPE))
+	{
+		exit();
 	}
 }
 
@@ -93,21 +80,19 @@ void Game::update()
 
 void Game::render()
 {
-	SDL_RenderClear(_renderer);
+	_graphics->setRenderColor(_backgroundColor);
+	_graphics->fillBackground();
 
 	/* Rendering of different classes */
 
-
-
 	/* End of rendering */
-	
-	SDL_RenderPresent(_renderer);
+
+	_graphics->flip();
 }
 
 void Game::exit()
 {
-	SDL_DestroyWindow(_window);
-	SDL_DestroyRenderer(_renderer);
+	_isRunning = false;
 	SDL_Quit();
 }
 
@@ -118,13 +103,23 @@ bool Game::running()
 
 void Game::run()
 {
+	unsigned int last = SDL_GetTicks();
+	unsigned int current;
+
 	while (this->running())
 	{
+		current = SDL_GetTicks();
+
 		this->handleUserInput();
 		this->update();
-		this->render();
 
-		SDL_Delay(1000 / _framerate);
+		if (current - last >= (1000 / _framerate))
+		{
+			this->render();
+			last = current;
+		}
+
+		SDL_Delay(10);
 	}
 }
 
